@@ -1,7 +1,6 @@
 {% if form %}
 	<form action='' method="POST">
-		<ul>
-			<li>
+            <p>
 				<label>{{ contact.email_label }}</label>
 					{{ form.email }}
 				{% if form.email.errors %}
@@ -9,8 +8,8 @@
 						<div class="error">{{ error }}</div>
 					{% endfor %}
 				{% endif %}
-			</li>
-			<li>
+			</p>
+			<p>
 				<label>{{ contact.subject_label }}</label>
 					{{ form.subject }}
 				{% if form.subject.errors %}
@@ -18,8 +17,8 @@
 						<div class="error">{{ error }}</div>
 					{% endfor %}
 				{% endif %}
-			</li>
-			<li>
+			</p>
+			<p>
 				<label>{{ contact.content_label }}</label>
 					{{ form.content }}
 				{% if form.content.errors %}
@@ -28,9 +27,9 @@
 					{% endfor %}
 				{% endif %}
 			</li>
-			<li>
+			<p>
 				<input type="submit" {% if contact.submit %}value="{{ contact.submit }}"{% endif %}>
-			</li>
+			</p>
 		</ul>
 	</form>
 
