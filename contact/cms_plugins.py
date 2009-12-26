@@ -1,8 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from plugins.contact.models import Contact
-from plugins.contact.forms import ContactForm
+from contact.models import Contact
+from contact.forms import ContactForm
 
 class ContactPlugin(CMSPluginBase):
     model = Contact
