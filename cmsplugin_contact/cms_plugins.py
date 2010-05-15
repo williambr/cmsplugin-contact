@@ -7,7 +7,7 @@ from forms import ContactForm
 class ContactPlugin(CMSPluginBase):
     model = Contact
     name = _("Contact Form")
-    render_template = "contact.html"
+    render_template = "cmsplugin_contact/contact.html"
     
     def render(self, context, instance, placeholder):
 	request = context['request']

@@ -10,7 +10,7 @@ class ContactForm(forms.Form):
         def send(self, site_email):
                 email_message = EmailMessage(
 					self.cleaned_data['subject'],
-        				render_to_string("email.txt", {
+        				render_to_string("cmsplugin_contact/email.txt", {
 							'data': self.cleaned_data,
 					}),
             				site_email,
