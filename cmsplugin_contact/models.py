@@ -4,9 +4,9 @@ from cms.models.pluginmodel import CMSPlugin
 
 class Contact(CMSPlugin):
 	site_email 	= models.EmailField(_('Email reciepient'))
-	email_label 	= models.CharField(_('Email sender label'), max_length=100)
-	subject_label	= models.CharField(_('Subject label'), max_length=200)
-	content_label 	= models.CharField(_('Message content label'), max_length=100)
+	email_label 	= models.CharField(_('Email sender label'), blank=True, max_length=100)
+	subject_label	= models.CharField(_('Subject label'), blank=True, max_length=200)
+	content_label 	= models.CharField(_('Message content label'), blank=True, max_length=100)
 	thanks 		= models.CharField(_('Message displayed on successful submit'), max_length=200)
 	submit		= models.CharField(_('Submit button value'), blank=True, max_length=30)
 
