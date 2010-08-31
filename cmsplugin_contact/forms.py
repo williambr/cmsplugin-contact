@@ -1,22 +1,30 @@
 from django import forms
-from django.core.mail import EmailMessage
-from django.template.loader import render_to_string
+#import settings
+from stopspam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
   
-class ContactForm(forms.Form):
-	email 	= forms.EmailField()
-	subject	= forms.CharField()
-	content	= forms.CharField(widget=forms.Textarea())
+class HoneyPotContactForm(HoneyPotForm):
+    email 	= forms.EmailField()
+    subject	= forms.CharField(required=False)
+    content	= forms.CharField(widget=forms.Textarea())
 
-        def send(self, site_email):
-                email_message = EmailMessage(
-					self.cleaned_data['subject'],
-        				render_to_string("cmsplugin_contact/email.txt", {
-							'data': self.cleaned_data,
-					}),
-            				site_email,
-            				[site_email],
-            				headers = {
-						'Reply-To': self.cleaned_data['email']
-						},)
-                email_message.send(fail_silently=True)
-	
+
+class AkismetContactForm(AkismetForm):
+    akismet_fields = {
+        'comment_author_email': 'email',
+        'comment_content': 'content'
+    }
+    email     = forms.EmailField()
+    subject    = forms.CharField(required=False)
+    content    = forms.CharField(widget=forms.Textarea())
+    
+    akismet_api_key = None
+    
+
+class RecaptchaContactForm(RecaptchaForm):
+    email     = forms.EmailField()
+    subject    = forms.CharField(required=False)
+    content    = forms.CharField(widget=forms.Textarea())
+
+    recaptcha_public_key = None
+    recaptcha_private_key = None
+    recaptcha_theme = None
