@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-31 02:33+0200\n"
+"POT-Creation-Date: 2010-09-01 18:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,65 +17,125 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: cms_plugins.py:11
+#: admin.py:16
+msgid "Akismet API Key"
+msgstr ""
+
+#: admin.py:16
+msgid "Get a Wordpress Key from http://akismet.com/"
+msgstr "Wordpress Key von http://akismet.com/"
+
+#: admin.py:18
+msgid "ReCAPTCHA Public Key"
+msgstr ""
+
+#: admin.py:18 admin.py:19
+msgid "Get this from http://www.google.com/recaptcha"
+msgstr "Erhältlich von http://www.google.com/recaptcha"
+
+#: admin.py:19
+msgid "ReCAPTCHA Private Key"
+msgstr ""
+
+#: admin.py:37
+msgid ""
+"Akismet library is not installed. Use \"easy_install akismet\" or \"pip "
+"install akismet\"."
+msgstr ""
+"Die Akismet Bibliothek ist nicht installiert. Zum installieren: "
+"\"easy_install akismet\" oder \"pip install akismet\""
+
+#: admin.py:48
+msgid "The API Key is not valid."
+msgstr "Der API Key ist ungültig."
+
+#: admin.py:56
+msgid ""
+"ReCAPTCHA library is not installed. Use \"easy_install recaptcha-client\" or "
+"\"pip install recaptcha-client\"."
+msgstr ""
+"Die ReCAPTCHA Bibliothek ist nicht installiert. Zum installieren: "
+"\"easy_install recaptcha-client\" oder \"pip install recaptcha-client\""
+
+#: cms_plugins.py:12
 msgid "Contact Form"
 msgstr "Kontaktformular"
 
-#: cms_plugins.py:35
+#: cms_plugins.py:20
+msgid "Spam Protection"
+msgstr "Spamschutz"
+
+#: cms_plugins.py:48
 msgid "No subject"
 msgstr "Kein Betreff"
 
 #: models.py:20
-msgid "Email Recipient"
-msgstr "EMail Empf&auml;nger"
+msgid "Email recipient"
+msgstr "E-Mail Empfänger"
 
 #: models.py:21
-msgid "Email Sender Label"
-msgstr "EMail Sender Label"
+msgid "Email sender label"
+msgstr "E-Mail Absender Beschriftung"
+
+#: models.py:21
+msgid "Your email address"
+msgstr "Ihre E-Mail Adresse"
 
 #: models.py:22
-msgid "Subject Label"
-msgstr "Betreff Label"
+msgid "Subject label"
+msgstr "Betreff Beschriftung"
+
+#: models.py:22
+msgid "Subject"
+msgstr "Betreff"
 
 #: models.py:23
-msgid "Message Content Label"
-msgstr "EMail Inhalt Label"
+msgid "Message content label"
+msgstr "Nachrichteninhalt Beschriftung"
+
+#: models.py:23
+msgid "Message"
+msgstr "Nachricht"
 
 #: models.py:24
-msgid "Thanks Message"
+msgid "Thanks message"
 msgstr "Dankesnachricht"
 
 #: models.py:24
 msgid "Message displayed on successful submit"
-msgstr "Benachrichtigung bei erfolgreichem Senden."
+msgstr "Nachricht nach erfolgreichem Absenden"
+
+#: models.py:24
+msgid "Thank you for your message."
+msgstr "Vielen Dank für Ihre Nachricht."
 
 #: models.py:25
-msgid "Submit Button Value"
+msgid "Submit button value"
 msgstr "Senden Button Beschriftung"
 
+#: models.py:25
+msgid "Submit"
+msgstr "Senden"
+
 #: models.py:27
-msgid "Method to protect your site from spam"
-msgstr "Spamschutz Methode"
+msgid "Spam protection method"
+msgstr "Spamschutzmethode"
 
-#: models.py:29
-msgid "Only if you are using Akismet spam protection."
-msgstr "Nur wenn Sie den Akismet Spamschutz verwenden."
-
-#: models.py:31 models.py:32 models.py:33
-msgid "Only if you are using ReCAPTCHA spam protection."
-msgstr "Nur wenn Sie den ReCAPTCHA Spamschutz verwenden."
+#: models.py:33
+msgid "ReCAPTCHA theme"
+msgstr "ReCAPTCHA Theme"
 
 #: templates/cmsplugin_contact/contact.html:40
 msgid "Incorrect please try again"
-msgstr "Nicht korrekt. Bitte versuchen Sie es erneut."
+msgstr "Eingabe nicht korrekt, bitte erneut versuchen"
 
 #: templates/cmsplugin_contact/contact.html:43
 msgid "Enter the words above:"
-msgstr "Bitte geben Sie die obigen W&ouml;rter ein:"
+msgstr "Obige Wörter eingeben:"
 
 #: templates/cmsplugin_contact/contact.html:44
 msgid "Enter the numbers you hear:"
-msgstr "Bitte geben Sie die Zahlen ein, die Sie h&ouml;ren."
+msgstr "Die gehörten Zahlen eingeben:"
 
 #: templates/cmsplugin_contact/contact.html:49
 msgid "Get another CAPTCHA"

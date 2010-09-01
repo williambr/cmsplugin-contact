@@ -5,11 +5,24 @@ from django.template.loader import render_to_string
 from models import Contact
 from forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from django.core.mail import EmailMessage
+from admin import ContactAdminForm
 
 class ContactPlugin(CMSPluginBase):
     model = Contact
     name = _("Contact Form")
     render_template = "cmsplugin_contact/contact.html"
+    form = ContactAdminForm
+    
+    fieldsets = (
+        (None, {
+            'fields': ('site_email', 'email_label', 'subject_label', 'content_label', 'thanks', 'submit'),
+        }),
+        (_('Spam Protection'), {
+            'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
+        })
+    )
+    
+    change_form_template = "cmsplugin_contact/admin/plugin_change_form.html"
 
     def create_form(self, instance, request):
         if instance.get_spam_protection_method_display() == 'Akismet':
@@ -62,5 +75,13 @@ class ContactPlugin(CMSPluginBase):
             })
             
         return context
+
+    def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
+        context.update({
+			'spam_protection_method': obj.spam_protection_method if obj else 0
+        })
+        
+        return super(ContactPlugin, self).render_change_form(request, context, add, change, form_url, obj)
+    	
     
 plugin_pool.register_plugin(ContactPlugin)

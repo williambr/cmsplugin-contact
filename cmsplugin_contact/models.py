@@ -17,20 +17,20 @@ class Contact(CMSPlugin):
         ('custom', 'Custom'),
 	)
 	
-	site_email 	= models.EmailField(_('Email Recipient'))
-	email_label 	= models.CharField(_('Email Sender Label'), blank=True, max_length=100)
-	subject_label	= models.CharField(_('Subject Label'), blank=True, max_length=200)
-	content_label 	= models.CharField(_('Message Content Label'), blank=True, max_length=100)
-	thanks 		= models.CharField(verbose_name=_("Thanks Message"), help_text=_('Message displayed on successful submit'), max_length=200)
-	submit		= models.CharField(_('Submit Button Value'), blank=True, max_length=30)
+	site_email 	= models.EmailField(_('Email recipient'))
+	email_label 	= models.CharField(_('Email sender label'), default=_('Your email address'), max_length=100)
+	subject_label	= models.CharField(_('Subject label'), default=_('Subject'), max_length=200)
+	content_label 	= models.CharField(_('Message content label'), default=_('Message'), max_length=100)
+	thanks 		= models.CharField(verbose_name=_("Thanks message"), help_text=_('Message displayed on successful submit'), default=_('Thank you for your message.'), max_length=200)
+	submit		= models.CharField(_('Submit button value'), default=_('Submit'), max_length=30)
 	
-	spam_protection_method = models.SmallIntegerField(help_text=_('Method to protect your site from spam'), choices=SPAM_PROTECTION_CHOICES)
+	spam_protection_method = models.SmallIntegerField(verbose_name=_('Spam protection method'), choices=SPAM_PROTECTION_CHOICES, default=0)
     
-	akismet_api_key = models.CharField(help_text=_('Only if you are using Akismet spam protection.'), verbose_name="Akismet API Key", max_length=255, blank=True)
+	akismet_api_key = models.CharField(max_length=255, blank=True)
 	
-	recaptcha_public_key = models.CharField(help_text=_('Only if you are using ReCAPTCHA spam protection.'), verbose_name="ReCAPTCHA Public Key", max_length=255, blank=True)
-	recaptcha_private_key = models.CharField(help_text=_('Only if you are using ReCAPTCHA spam protection.'), verbose_name="ReCAPTCHA Private Key", max_length=255, blank=True)
-	recaptcha_theme = models.CharField(max_length=20, choices=THEME_CHOICES, default='clean', help_text=_('Only if you are using ReCAPTCHA spam protection.'))
+	recaptcha_public_key = models.CharField(max_length=255, blank=True)
+	recaptcha_private_key = models.CharField(max_length=255, blank=True)
+	recaptcha_theme = models.CharField(max_length=20, choices=THEME_CHOICES, default='clean', verbose_name=_('ReCAPTCHA theme'))
 	
 	def __unicode__(self):
 		return self.site_email

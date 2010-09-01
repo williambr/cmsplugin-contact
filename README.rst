@@ -2,7 +2,7 @@
 Django CMS Contact Form Plugin
 ==============================
 
-Contact form plugin for `Django CMS <http://www.django-cms.org/>` with spam protection and i18n.
+Contact form plugin for `Django CMS <http://www.django-cms.org/>`_ with spam protection and i18n.
 
 If you want to use ReCAPTCHA you have to get a Public and Private Key from http://www.google.com/recaptcha. You can get them for free.
 
@@ -16,7 +16,7 @@ Dependencies
 Django Apps
 -----------
 
-`glamkit-stopspam <http://github.com/maccesch/glamkit-stopspam>` provides nice spam protection support.
+`glamkit-stopspam <http://github.com/maccesch/glamkit-stopspam>`_ provides nice spam protection support.
 
 Python Libs
 -----------
@@ -27,8 +27,8 @@ If you use Akismet for spam protection "akismet" is needed.
 
 Both libraries can be installed by ``easy_install`` or ``pip``.
 
-Install
-=======
+Installation
+============
 
 Type ``python setup.py install`` in your terminal.
 
