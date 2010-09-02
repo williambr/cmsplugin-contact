@@ -8,6 +8,7 @@ setup(
     author_email='maccesch@gmail.com',
     url='http://github.com/maccesch/cmsplugin_contact',
     packages=find_packages(),
+    keywords='contact form django cms django-cms spam protection email',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
