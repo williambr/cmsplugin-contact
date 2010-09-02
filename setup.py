@@ -6,7 +6,7 @@ setup(
     description='Contact form plugin for Django CMS with spam protection and i18n',
     author='Maccesch',
     author_email='maccesch@gmail.com',
-    url='http://github.com/maccesch/cmsplugin_contact',
+    url='http://github.com/maccesch/cmsplugin-contact',
     packages=find_packages(),
     keywords='contact form django cms django-cms spam protection email',
     classifiers=[
