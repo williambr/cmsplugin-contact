@@ -40,5 +40,5 @@ Manual Download
 
 Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpacked folder. Then type ``python setup.py install`` in your terminal.
 
-Put "cmsplugin-contact" in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database.
+Put "cmsplugin_contact" in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database.
 
