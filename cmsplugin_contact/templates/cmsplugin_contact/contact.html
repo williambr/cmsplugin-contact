@@ -30,7 +30,6 @@
 			{% endif %}
 		</p>
 		{% if form.recaptcha_challenge_field %}
-		{% autoescape off %}
 			<p {% if form.recaptcha_response_fiel.errors %}class="error"{% endif %}>
 				{{ form.recaptcha_challenge_field }}
 				{% if form.recaptcha_theme == "custom" %}
@@ -62,16 +61,13 @@
 				{% endfor %}
 			{% endif %}
 			</p>
-		{% endautoescape %}
 		{% endif %}
 		
 		{% if form.accept_terms %}
-			{% autoescape off %}
 			{{ form.accept_terms }}
-			{% endautoescape %}
 		{% endif %}
 		<p>
-			<input type="submit" {% if contact.submit %}value="{{ contact.submit }}"{% endif %}>
+			<button>{{ contact.submit }}</button>
 		</p>
 		
 		{% csrf_token %}

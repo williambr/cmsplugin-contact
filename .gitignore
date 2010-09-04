@@ -5,3 +5,6 @@ DS_STORE
 .project
 .pydevproject
 .settings
+build
+dist
+cmsplugin_contact.egg-info
