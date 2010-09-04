@@ -8,9 +8,3 @@ DS_STORE
 build
 dist
 cmsplugin_contact.egg-info
-/.project
-/.pydevproject
-/.settings
-/build
-/cmsplugin_contact.egg-info
-/dist
