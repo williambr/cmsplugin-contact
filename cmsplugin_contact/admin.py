@@ -67,7 +67,6 @@ class ContactAdminForm(ModelForm):
     def clean(self):
     	
     	method = self.cleaned_data['spam_protection_method']
-    	print "huhu"
     	if method == 1:
     		# user chose aksimet => akismet api key is required
     		self._check_akismet()
