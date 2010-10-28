@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
@@ -29,8 +30,10 @@ class ContactPlugin(CMSPluginBase):
             AkismetContactForm.aksimet_api_key = instance.aksimet_api_key
             FormClass = AkismetContactForm
         elif instance.get_spam_protection_method_display() == 'ReCAPTCHA':
-            RecaptchaContactForm.recaptcha_public_key = instance.recaptcha_public_key
-            RecaptchaContactForm.recaptcha_private_key = instance.recaptcha_private_key
+            RecaptchaContactForm.recaptcha_public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
+                                                        instance.recaptcha_public_key)
+            RecaptchaContactForm.recaptcha_private_key = getattr(settings, "RECAPTCHA_PRIVATE_KEY", \
+                                                         instance.recaptcha_private_key)
             RecaptchaContactForm.recaptcha_theme = instance.recaptcha_theme
             FormClass = RecaptchaContactForm
         else:

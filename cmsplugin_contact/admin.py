@@ -15,8 +15,10 @@ class KeyField(CharField):
 class ContactAdminForm(ModelForm):
     akismet_api_key = KeyField(max_length=255, label=_("Akismet API Key"), help_text=_('Get a Wordpress Key from http://akismet.com/'))
 
-    recaptcha_public_key = KeyField(max_length=255, label=_("ReCAPTCHA Public Key"), help_text=_('Get this from http://www.google.com/recaptcha'))
-    recaptcha_private_key = KeyField(max_length=255, label=_("ReCAPTCHA Private Key"), help_text=_('Get this from http://www.google.com/recaptcha'))
+    recaptcha_public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
+                           KeyField(max_length=255, label=_("ReCAPTCHA Public Key"), help_text=_('Get this from http://www.google.com/recaptcha')))
+    recaptcha_private_key = getattr(settings, "RECAPTCHA_PRIVATE_KEY", \
+                           KeyField(max_length=255, label=_("ReCAPTCHA Private Key"), help_text=_('Get this from http://www.google.com/recaptcha')))
     
     class Meta:
     	model = Contact
@@ -55,8 +57,10 @@ class ContactAdminForm(ModelForm):
     	except ImportError:
     		self._add_error('spam_protection_method', _('ReCAPTCHA library is not installed. Use "easy_install recaptcha-client" or "pip install recaptcha-client".'))
     		
-    	public_key = self.cleaned_data['recaptcha_public_key']
-    	private_key = self.cleaned_data['recaptcha_private_key']
+        public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
+                     self.cleaned_data['recaptcha_public_key'])
+        private_key = getattr(settings, "RECAPTCHA_PRIVATE_KEY", \
+                      self.cleaned_data['recaptcha_private_key'])
     	
     	if not public_key:
     		self._add_error('recaptcha_public_key', Field.default_error_messages['required'])
