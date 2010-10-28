@@ -8,7 +8,9 @@
 		$('div.spam_protection_method').parent().children('.form-row').each(function(index, row) {
 			var visible = false;
 			$.each($(row).attr('class').split(/\s+/), function(index, class) {
-				if (class == 'spam_protection_method' || class.indexOf(class_prefix) >= 0) {
+				if (class == 'spam_protection_method' || (class.indexOf(class_prefix) >= 0
+					{% if recaptcha_settings %} && class.indexOf("recaptcha_public_key") < 0 && class.indexOf("recaptcha_private_key") < 0{% endif %}
+					{% if akismet_settings %} && class.indexOf("akismet_api_key") < 0{% endif %})) {
 					visible = true;
 				}
 			});
@@ -43,13 +45,13 @@
 		margin-left: 13em;
 	}
 	
-	{% if spam_protection_method != 1 %}
+	{% if spam_protection_method != 1 or akismet_settings %}
 	div.form-row.akismet_api_key {
 		display: none;
 	}
 	{% endif %}
 
-	{% if spam_protection_method != 2 %}
+	{% if spam_protection_method != 2 or recaptcha_settings %}
 	div.form-row.recaptcha_public_key {
 		display: none;
 	}

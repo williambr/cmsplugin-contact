@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Field, CharField
+from django.forms import ModelForm, Field, CharField, HiddenInput
 from django.forms.util import ErrorList
 from django.core.exceptions import ValidationError
 from django.contrib.sites.models import Site
@@ -15,14 +15,11 @@ class KeyField(CharField):
 class ContactAdminForm(ModelForm):
     akismet_api_key = KeyField(max_length=255, label=_("Akismet API Key"), help_text=_('Get a Wordpress Key from http://akismet.com/'))
 
-    recaptcha_public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
-                           KeyField(max_length=255, label=_("ReCAPTCHA Public Key"), help_text=_('Get this from http://www.google.com/recaptcha')))
-    recaptcha_private_key = getattr(settings, "RECAPTCHA_PRIVATE_KEY", \
-                           KeyField(max_length=255, label=_("ReCAPTCHA Private Key"), help_text=_('Get this from http://www.google.com/recaptcha')))
+    recaptcha_public_key = KeyField(max_length=255, label=_("ReCAPTCHA Public Key"), help_text=_('Get this from http://www.google.com/recaptcha'))
+    recaptcha_private_key = KeyField(max_length=255, label=_("ReCAPTCHA Private Key"), help_text=_('Get this from http://www.google.com/recaptcha'))
     
     class Meta:
     	model = Contact
-    	
     	
     def _add_error(self, field_name, error):
     	if not field_name in self._errors:
@@ -38,16 +35,19 @@ class ContactAdminForm(ModelForm):
         except ImportError:
            self._add_error('spam_protection_method', _('Akismet library is not installed. Use "easy_install akismet" or "pip install akismet".'))
         
-        api_key = self.cleaned_data['akismet_api_key']
-        if not api_key:
-        	add_error(Field.default_error_messages['required'])
-        else:
-            ak = Akismet(
-                key = api_key,
-                blog_url = 'http://%s/' % Site.objects.get(pk=settings.SITE_ID).domain
-            )
-            if not ak.verify_key():
-            	add_error(_('The API Key is not valid.'))
+        api_key = getattr(settings, "AKISMET_API_KEY", \
+                  self.cleaned_data['akismet_api_key'])
+        
+        if not hasattr(settings, "AKISMET_API_KEY"):
+            if not api_key:
+            	add_error(Field.default_error_messages['required'])
+            else:
+                ak = Akismet(
+                    key = api_key,
+                    blog_url = 'http://%s/' % Site.objects.get(pk=settings.SITE_ID).domain
+                )
+                if not ak.verify_key():
+                	add_error(_('The API Key is not valid.'))
 		           
     
     def _check_recaptcha(self):

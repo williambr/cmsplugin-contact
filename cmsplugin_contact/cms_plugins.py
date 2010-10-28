@@ -27,7 +27,7 @@ class ContactPlugin(CMSPluginBase):
 
     def create_form(self, instance, request):
         if instance.get_spam_protection_method_display() == 'Akismet':
-            AkismetContactForm.aksimet_api_key = instance.aksimet_api_key
+            AkismetContactForm.aksimet_api_key = instance.akismet_api_key
             FormClass = AkismetContactForm
         elif instance.get_spam_protection_method_display() == 'ReCAPTCHA':
             RecaptchaContactForm.recaptcha_public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
@@ -81,7 +81,9 @@ class ContactPlugin(CMSPluginBase):
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
         context.update({
-			'spam_protection_method': obj.spam_protection_method if obj else 0
+			'spam_protection_method': obj.spam_protection_method if obj else 0,
+            'recaptcha_settings': hasattr(settings, "RECAPTCHA_PUBLIC_KEY"),
+            'akismet_settings': hasattr(settings, "AKISMET_API_KEY"),
         })
         
         return super(ContactPlugin, self).render_change_form(request, context, add, change, form_url, obj)

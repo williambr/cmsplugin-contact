@@ -8,7 +8,7 @@ Spam protection is done through `glamkit-stopspam <http://github.com/maccesch/gl
 
 If you want to use ReCAPTCHA you have to get a Public and Private Key from http://www.google.com/recaptcha. You can get them for free.
 
-The Akismet spam protection method requires an Aksimet API Key which is obtainable from http://akismet.com/ For private persons this is free, too.
+The Akismet spam protection method requires an Akismet API Key which is obtainable from http://akismet.com/ For private persons this is free, too.
 
 For more Information on the spam protection methods see the glamkit-stopspam link below.
 
@@ -46,3 +46,15 @@ Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpa
 
 Put "cmsplugin_contact" in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database.
 
+Settings
+========
+
+RECAPTCHA_PUBLIC_KEY and RECAPTCHA_PRIVATE_KEY
+----------------------------------------------
+
+If you don't want to enter the ReCATPCHA keys in the admin interface you can provide them through these settings.
+
+AKISMET_API_KEY
+---------------
+
+The same as for ReCAPTCHA goes fo Akismet.
