@@ -54,7 +54,7 @@ class ContactPlugin(CMSPluginBase):
             render_to_string("cmsplugin_contact/email.txt", {
                 'data': form.cleaned_data,
             }),
-            site_email,
+            form.cleaned_data['email'],
             [site_email],
             headers = {
                 'Reply-To': form.cleaned_data['email']
