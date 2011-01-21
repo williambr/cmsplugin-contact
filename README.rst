@@ -18,7 +18,7 @@ Dependencies
 Django Apps
 -----------
 
-`glamkit-stopspam <http://github.com/maccesch/glamkit-stopspam>`_ provides nice spam protection support.
+`glamkit-stopspam <https://github.com/glamkit/glamkit-stopspam/>`_ provides nice spam protection support.
 You have to use the latest version from https://github.com/glamkit/glamkit-stopspam/ as the version in PyPI is outdated.
 
 Python Libs
