@@ -21,7 +21,7 @@ class Contact(CMSPlugin):
     email_label = models.CharField(_('Email sender label'), default=_('Your email address'), max_length=100)
     subject_label = models.CharField(_('Subject label'), default=_('Subject'), max_length=200)
     content_label = models.CharField(_('Message content label'), default=_('Message'), max_length=100)
-    thanks = models.CharField(verbose_name=_("Thanks message"), help_text=_('Message displayed on successful submit'), default=_('Thank you for your message.'), max_length=200)
+    thanks = models.TextField(verbose_name=_("Thanks message"), help_text=_('Message displayed on successful submit'), default=_('Thank you for your message.'), max_length=200)
     submit = models.CharField(_('Submit button value'), default=_('Submit'), max_length=30)
     
     spam_protection_method = models.SmallIntegerField(verbose_name=_('Spam protection method'), choices=SPAM_PROTECTION_CHOICES, default=0)
