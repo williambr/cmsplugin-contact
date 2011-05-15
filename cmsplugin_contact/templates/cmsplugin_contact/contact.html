@@ -74,5 +74,5 @@
 	</form>
 
 {% else %}
-	<h2>{{ contact.thanks }}</h2>
+	{{ contact.thanks|safe }}
 {% endif %}
