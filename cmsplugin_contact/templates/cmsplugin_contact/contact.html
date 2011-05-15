@@ -64,7 +64,7 @@
 		{% endif %}
 		
 		{% if form.accept_terms %}
-			{{ form.accept_terms }}
+			{{ form.accept_terms|safe }}
 		{% endif %}
 		<p>
 			<button>{{ contact.submit }}</button>
