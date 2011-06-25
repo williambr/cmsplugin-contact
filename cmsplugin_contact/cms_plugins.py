@@ -58,17 +58,6 @@ class ContactPlugin(CMSPluginBase):
         kwargs['form'] = form # override standard form
         return super(ContactPlugin, self).get_form(request, obj, **kwargs)
 
-    def get_editor_widget(self, request, plugins):
-        """
-        Returns the Django form Widget to be used for
-        the text area
-        """
-        if USE_TINYMCE and "tinymce" in settings.INSTALLED_APPS:
-            from cms.plugins.text.widgets.tinymce_widget import TinyMCEEditor
-            return TinyMCEEditor(installed_plugins=plugins)
-        else:
-            return WYMEditor(installed_plugins=plugins)
-
     def create_form(self, instance, request):
         if instance.get_spam_protection_method_display() == 'Akismet':
             AkismetContactForm.aksimet_api_key = instance.akismet_api_key
@@ -94,7 +83,9 @@ class ContactPlugin(CMSPluginBase):
         if not subject:
             subject = _('No subject')
         email_message = EmailMessage(
-            subject,
+            render_to_string("cmsplugin_contact/subject.txt", {
+                'subject': subject,
+            }),
             render_to_string("cmsplugin_contact/email.txt", {
                 'data': form.cleaned_data,
             }),
@@ -106,16 +97,16 @@ class ContactPlugin(CMSPluginBase):
         email_message.send(fail_silently=True)
     
     def render(self, context, instance, placeholder):
-    	request = context['request']
+        request = context['request']
 
         form = self.create_form(instance, request)
     
-    	if request.method == "POST" and form.is_valid():
-			self.send(form, instance.site_email)
-			context.update( {
-				'contact': instance,
-			})
-    	else:
+        if request.method == "POST" and form.is_valid():
+            self.send(form, instance.site_email)
+            context.update( {
+                'contact': instance,
+            })
+        else:
             context.update({
                 'contact': instance,
                 'form': form,
@@ -125,12 +116,12 @@ class ContactPlugin(CMSPluginBase):
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
         context.update({
-			'spam_protection_method': obj.spam_protection_method if obj else 0,
+            'spam_protection_method': obj.spam_protection_method if obj else 0,
             'recaptcha_settings': hasattr(settings, "RECAPTCHA_PUBLIC_KEY"),
             'akismet_settings': hasattr(settings, "AKISMET_API_KEY"),
         })
         
         return super(ContactPlugin, self).render_change_form(request, context, add, change, form_url, obj)
-    	
+        
     
 plugin_pool.register_plugin(ContactPlugin)
