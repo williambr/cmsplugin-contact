@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from cms.models.pluginmodel import CMSPlugin
+from cms.models import CMSPlugin
 
 class Contact(CMSPlugin):
     SPAM_PROTECTION_CHOICES = (

@@ -53,7 +53,7 @@ Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpa
 Setup
 -----
 
-Put ``"cmsplugin_contact"`` in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database or migrate if you're using South.
+Put ``'cmsplugin_contact'`` in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database or migrate if you're using South.
 
 Settings
 ========
