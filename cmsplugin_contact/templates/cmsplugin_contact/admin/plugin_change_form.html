@@ -7,10 +7,10 @@
 	function updateVisibility(class_prefix) {
 		$('div.spam_protection_method').parent().children('.form-row').each(function(index, row) {
 			var visible = false;
-			$.each($(row).attr('class').split(/\s+/), function(index, class) {
-				if (class == 'spam_protection_method' || (class.indexOf(class_prefix) >= 0
-					{% if recaptcha_settings %} && class.indexOf("recaptcha_public_key") < 0 && class.indexOf("recaptcha_private_key") < 0{% endif %}
-					{% if akismet_settings %} && class.indexOf("akismet_api_key") < 0{% endif %})) {
+			$.each($(row).attr('class').split(/\s+/), function(index, klass) {
+				if (klass == 'spam_protection_method' || (klass.indexOf(class_prefix) >= 0
+					{% if recaptcha_settings %} && klass.indexOf("recaptcha_public_key") < 0 && klass.indexOf("recaptcha_private_key") < 0{% endif %}
+					{% if akismet_settings %} && klass.indexOf("akismet_api_key") < 0{% endif %})) {
 					visible = true;
 				}
 			});
