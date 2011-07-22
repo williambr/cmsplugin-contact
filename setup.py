@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cmsplugin-contact',
-    version='0.9.6',
+    version='0.9.7',
     description='Contact form plugin for Django CMS with spam protection and i18n',
     author='Maccesch',
     author_email='maccesch@gmail.com',
@@ -20,5 +20,5 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
-    install_requires=['setuptools'],
+    install_requires=['django', 'django-cms'],
 )

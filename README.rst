@@ -33,17 +33,23 @@ Both libraries can be installed by ``easy_install`` or ``pip``.
 Installation
 ============
 
+Download
+--------
+
 From PyPI
----------
+'''''''''
 
 You can simply type into a terminal ``pip install cmsplugin-contact`` or ``easy_install cmsplugin-contact``.
 
-Manual Download
----------------
+Manually
+''''''''
 
 You can download a zipped archive from http://github.com/maccesch/cmsplugin-contact/downloads.
 
 Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpacked folder. Then type ``python setup.py install`` in your terminal.
+
+Setup
+-----
 
 Put "cmsplugin_contact" in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database.
 
