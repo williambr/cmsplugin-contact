@@ -28,7 +28,9 @@ If you decide to use the ReCAPTCHA spam protection method glamkit-stopspam needs
 
 If you use Akismet for spam protection "akismet" is needed. You also need to set your domain url in django admin "sites".
 
-Both libraries can be installed by ``easy_install`` or ``pip``.
+Both libraries can be installed by ``pip`` or ``easy_install``.
+
+It is recommended but not required to use South. Again it can be easily installed by or ``pip`` or ``easy_install``.
 
 Installation
 ============
@@ -51,7 +53,7 @@ Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpa
 Setup
 -----
 
-Put "cmsplugin_contact" in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database.
+Put ``"cmsplugin_contact"`` in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database or migrate if you're using South.
 
 Settings
 ========
