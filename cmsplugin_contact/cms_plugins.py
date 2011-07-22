@@ -48,7 +48,10 @@ class ContactPlugin(CMSPluginBase):
         class TextPluginForm(self.form):
             pass
         widget = self.get_editor_widget(request, plugins)
-        TextPluginForm.declared_fields["thanks"] = CharField(widget=widget, required=False)
+        
+        thanks_field = self.form.base_fields['thanks']
+        
+        TextPluginForm.declared_fields["thanks"] = CharField(widget=widget, required=False, label=thanks_field.label, help_text=thanks_field.help_text)
         return TextPluginForm
 
 

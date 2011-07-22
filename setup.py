@@ -4,6 +4,7 @@ setup(
     name='cmsplugin-contact',
     version='0.9.7',
     description='Contact form plugin for Django CMS with spam protection and i18n',
+    long_description=open('README.rst').read(),
     author='Maccesch',
     author_email='maccesch@gmail.com',
     url='http://github.com/maccesch/cmsplugin-contact',
@@ -20,5 +21,5 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
-    install_requires=['django', 'django-cms'],
+    install_requires=[],
 )

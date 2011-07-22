@@ -1,6 +1,6 @@
 from django import forms
 #import settings
-from nospam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
+from cmsplugin_contact.nospam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
   
 class HoneyPotContactForm(HoneyPotForm):
     email 	= forms.EmailField()
