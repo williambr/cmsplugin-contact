@@ -4,27 +4,17 @@ Django CMS Contact Form Plugin
 
 Contact form plugin for `Django CMS <http://www.django-cms.org/>`_ with spam protection and i18n.
 
-Spam protection is done through `glamkit-stopspam <http://github.com/maccesch/glamkit-stopspam>`_ which provides three different protection methods.
-
 If you want to use ReCAPTCHA you have to get a Public and Private Key from http://www.google.com/recaptcha. You can get them for free.
 
 The Akismet spam protection method requires an Akismet API Key which is obtainable from http://akismet.com/ For private persons this is free, too.
 
-For more Information on the spam protection methods see the glamkit-stopspam link below.
-
 Dependencies
 ============
-
-Django Apps
------------
-
-`glamkit-stopspam <https://github.com/glamkit/glamkit-stopspam/>`_ provides nice spam protection support.
-You have to use the latest version from https://github.com/glamkit/glamkit-stopspam/ as the version in PyPI is outdated.
 
 Python Libs
 -----------
 
-If you decide to use the ReCAPTCHA spam protection method glamkit-stopspam needs "recaptcha-client".
+If you decide to use the ReCAPTCHA spam protection method you need to install the python library "recaptcha-client".
 
 If you use Akismet for spam protection "akismet" is needed. You also need to set your domain url in django admin "sites".
 
