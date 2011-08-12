@@ -5,7 +5,7 @@ from cmsplugin_contact.nospam import utils
 
 from fields import HoneypotField
 from widgets import RecaptchaChallenge, RecaptchaResponse
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 
