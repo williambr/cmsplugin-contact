@@ -143,7 +143,7 @@ msgid "You did not enter the two words shown in the image."
 msgstr "Sie haben die beiden Wörter im Bild nicht eingegeben."
 
 #: nospam/forms.py:98
-msgid "The words you entered did not match the image"
+msgid "The words you entered did not match the image."
 msgstr "Die eingegebenen Wörter waren nicht richtig."
 
 #: nospam/widgets.py:30

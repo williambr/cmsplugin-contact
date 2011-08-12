@@ -95,7 +95,7 @@ class RecaptchaForm(BaseForm):
                 ip = self._request.META['REMOTE_ADDR']
                 check = recaptcha.submit(rcf, rrf, self._recaptcha_private_key, ip)
                 if not check.is_valid:
-                    raise forms.ValidationError(_('The words you entered did not match the image'))
+                    raise forms.ValidationError(_('The words you entered did not match the image.'))
 
 class HoneyPotForm(BaseForm):
     accept_terms = HoneypotField()
