@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-22 15:23+0200\n"
+"POT-Creation-Date: 2011-08-12 11:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr "Kontaktformular"
 msgid "Spam Protection"
 msgstr "Spamschutz"
 
-#: cms_plugins.py:84
+#: cms_plugins.py:87
 msgid "No subject"
 msgstr "Kein Betreff"
 
@@ -132,7 +132,9 @@ msgstr "Bitte nicht anklicken."
 
 #: nospam/forms.py:42
 msgid "Please enter the two words on the image separated by a space:"
-msgstr "Geben Sie bitte die beiden Wörter im Bild, durch ein Leerzeichen getrennt, ein."
+msgstr ""
+"Geben Sie bitte die beiden Wörter im Bild, durch ein Leerzeichen getrennt, "
+"ein."
 
 #: nospam/forms.py:44
 msgid "You did not enter any of the words."
