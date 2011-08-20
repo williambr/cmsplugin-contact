@@ -9,7 +9,7 @@ from cms.plugin_pool import plugin_pool
 from cms.plugins.text.settings import USE_TINYMCE
 from cms.plugins.text.widgets.wymeditor_widget import WYMEditor
 from models import Contact
-from forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
+from forms import ContactForm, AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from admin import ContactAdminForm
 
 class ContactPlugin(CMSPluginBase):
@@ -17,6 +17,8 @@ class ContactPlugin(CMSPluginBase):
     name = _("Contact Form")
     render_template = "cmsplugin_contact/contact.html"
     form = ContactAdminForm
+    contact_form = ContactForm
+    email_template = "cmsplugin_contact/email.txt"
     
     fieldsets = (
         (None, {
@@ -64,16 +66,24 @@ class ContactPlugin(CMSPluginBase):
     def create_form(self, instance, request):
         if instance.get_spam_protection_method_display() == 'Akismet':
             AkismetContactForm.aksimet_api_key = instance.akismet_api_key
-            FormClass = AkismetContactForm
+            class ContactForm(self.contact_form, AkismetContactForm):
+                pass
+            FormClass = ContactForm
         elif instance.get_spam_protection_method_display() == 'ReCAPTCHA':
-            RecaptchaContactForm.recaptcha_public_key = getattr(settings, "RECAPTCHA_PUBLIC_KEY", \
-                                                        instance.recaptcha_public_key)
-            RecaptchaContactForm.recaptcha_private_key = getattr(settings, "RECAPTCHA_PRIVATE_KEY", \
-                                                         instance.recaptcha_private_key)
+            RecaptchaContactForm.recaptcha_public_key = getattr(
+                settings, "RECAPTCHA_PUBLIC_KEY",
+                instance.recaptcha_public_key)
+            RecaptchaContactForm.recaptcha_private_key = getattr(
+                settings, "RECAPTCHA_PRIVATE_KEY",
+                instance.recaptcha_private_key)
             RecaptchaContactForm.recaptcha_theme = instance.recaptcha_theme
-            FormClass = RecaptchaContactForm
+            class ContactForm(self.contact_form, RecaptchaContactForm):
+                pass
+            FormClass = ContactForm
         else:
-            FormClass = HoneyPotContactForm
+            class ContactForm(self.contact_form, HoneyPotContactForm):
+                pass
+            FormClass = ContactForm
             
         if request.method == "POST":
             return FormClass(request, data=request.POST)
@@ -88,8 +98,8 @@ class ContactPlugin(CMSPluginBase):
         email_message = EmailMessage(
             render_to_string("cmsplugin_contact/subject.txt", {
                 'subject': subject,
-            }).splitlines()[0],
-            render_to_string("cmsplugin_contact/email.txt", {
+            }),
+            render_to_string(self.email_template, {
                 'data': form.cleaned_data,
             }),
             form.cleaned_data['email'],
