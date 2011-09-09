@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from cms.models import CMSPlugin
 
-class Contact(CMSPlugin):
+# Feel free to extend this class instead of Contact.
+class BaseContact(CMSPlugin):
     SPAM_PROTECTION_CHOICES = (
         (0, 'Honeypot'),
         (1, 'Akismet'),
@@ -31,6 +32,12 @@ class Contact(CMSPlugin):
     recaptcha_public_key = models.CharField(max_length=255, blank=True)
     recaptcha_private_key = models.CharField(max_length=255, blank=True)
     recaptcha_theme = models.CharField(max_length=20, choices=THEME_CHOICES, default='clean', verbose_name=_('ReCAPTCHA theme'))
+
+    class Meta:
+        abstract = True
     
     def __unicode__(self):
         return self.site_email
+
+class Contact(BaseContact):
+    pass
