@@ -1,25 +1,20 @@
-from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from cms.plugin_pool import plugin_pool
 
 from cmsplugin_contact.cms_plugins import ContactPlugin
-from cmsplugin_contact.forms import ContactForm
-from cmsplugin_contact.model import BaseContact
-
-class CustomContact(BaseContact):
-    custom_label = models.CharField(
-        _('Custom sender label'),
-        default=_('Your custom value'), max_length=20)
-
-class CustomContactForm(ContactForm):
-    custom = forms.CharField()
+from models import CustomContact
+from forms import CustomContactForm
 
 class CustomContactPlugin(ContactPlugin):
-    model = CustomContact
     name = _("Custom Contact Form")
-    render_template = "cmsplugin_contact/contact.html"
+    
+    model = CustomContact
     contact_form = CustomContactForm
+    
+    # We're using the original cmsplugin_contact templates here which
+    # works fine but requires that the original plugin is in INSTALLED_APPS.
+    render_template = "cmsplugin_contact/contact.html"
     email_template = "cmsplugin_contact/email.txt"
     
     fieldsets = (
