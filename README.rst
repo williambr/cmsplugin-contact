@@ -62,6 +62,6 @@ Extending
 =========
 
 See ``examples/cmsplugin_custom_contact`` how to subclass
-``cmsplugin_custom`` and add custom fields into it. You can override
-properties of subclassed ``ContactPlugin`` and use your own templates
+``cmsplugin_contact`` and add custom fields into it. You can override
+properties of the subclassed ``ContactPlugin`` and use your own templates
 and classes.
