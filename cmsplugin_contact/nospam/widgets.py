@@ -27,5 +27,5 @@ class RecaptchaChallenge(forms.Widget):
 class HoneypotWidget(forms.CheckboxInput):
     is_hidden = True
     def render(self, *args, **kwargs):
-        wrapper_html = '<div style="display: none;"><label for="id_accept_terms">' + str(_('Are you a robot?')) + '</label>%s</div>'
+        wrapper_html = '<div style="display: none;"><label for="id_accept_terms">' + unicode(_('Are you a robot?')) + '</label>%s</div>'
         return mark_safe(wrapper_html % super(HoneypotWidget, self).render(*args, **kwargs))
