@@ -30,7 +30,7 @@
 			{% endif %}
 		</p>
 		{% if form.recaptcha_challenge_field %}
-			<div{% if form.recaptcha_response_fiel.errors %} class="error"{% endif %}>
+			<div{% if form.recaptcha_response_field.errors %} class="error"{% endif %}>
 				{{ form.recaptcha_challenge_field }}
 				{% if form.recaptcha_theme == "custom" %}
 					<div id="recaptcha_widget" style="display:none">
