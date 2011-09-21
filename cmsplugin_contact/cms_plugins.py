@@ -18,6 +18,7 @@ class ContactPlugin(CMSPluginBase):
     render_template = "cmsplugin_contact/contact.html"
     form = ContactAdminForm
     contact_form = ContactForm
+    subject_template = "cmsplugin_contact/subject.txt"
     email_template = "cmsplugin_contact/email.txt"
     
     fieldsets = (
@@ -96,7 +97,7 @@ class ContactPlugin(CMSPluginBase):
         if not subject:
             subject = _('No subject')
         email_message = EmailMessage(
-            render_to_string("cmsplugin_contact/subject.txt", {
+            render_to_string(self.subject_template, {
                 'subject': subject,
             }),
             render_to_string(self.email_template, {
