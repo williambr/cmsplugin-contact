@@ -3,7 +3,7 @@
 {% if form %}
 	<form action="" method="post">
 		<p{% if form.email.errors %} class="error"{% endif %}>
-			<label>{{ contact.email_label }}</label><br />
+			<label class="contact_field">{{ contact.email_label }}</label>
 				{{ form.email }}
 			{% if form.email.errors %}
 				{% for error in form.email.errors %}
@@ -12,7 +12,7 @@
 			{% endif %}
 		</p>
 		<p{% if form.subject.errors %} class="error"{% endif %}>
-			<label>{{ contact.subject_label }}</label><br />
+			<label class="contact_field">{{ contact.subject_label }}</label>
 				{{ form.subject }}
 			{% if form.subject.errors %}
 				{% for error in form.subject.errors %}
@@ -21,7 +21,7 @@
 			{% endif %}
 		</p>
 		<p{% if form.content.errors %} class="error"{% endif %}>
-			<label>{{ contact.content_label }}</label><br />
+			<label class="contact_field">{{ contact.content_label }}</label>
 				{{ form.content }}
 			{% if form.content.errors %}
 				{% for error in form.content.errors %}
@@ -54,7 +54,7 @@
 					</div>
 				{% endif %}
 			
-				{% if form.recaptcha_response_field.label %}<label>{{ form.recaptcha_response_field.label }}</label><br />{% endif %}
+				{% if form.recaptcha_response_field.label %}<label class="contact_field">{{ form.recaptcha_response_field.label }}</label>{% endif %}
 				{{ form.recaptcha_response_field }}
 			{% if form.recaptcha_response_field.errors %}
 				{% for error in form.recaptcha_response_field.errors %}
