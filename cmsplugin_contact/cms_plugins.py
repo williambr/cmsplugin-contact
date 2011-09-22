@@ -99,7 +99,7 @@ class ContactPlugin(CMSPluginBase):
         email_message = EmailMessage(
             render_to_string(self.subject_template, {
                 'subject': subject,
-            }),
+            }).splitlines()[0],
             render_to_string(self.email_template, {
                 'data': form.cleaned_data,
             }),
@@ -108,7 +108,7 @@ class ContactPlugin(CMSPluginBase):
             headers = {
                 'Reply-To': form.cleaned_data['email']
             },)
-        email_message.send(fail_silently=True)
+        email_message.send(fail_silently=False)
     
     def render(self, context, instance, placeholder):
         request = context['request']
