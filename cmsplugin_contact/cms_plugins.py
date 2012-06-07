@@ -103,7 +103,7 @@ class ContactPlugin(CMSPluginBase):
             render_to_string(self.email_template, {
                 'data': form.cleaned_data,
             }),
-            form.cleaned_data['email'],
+            getattr(settings, 'DEFAULT_FROM_EMAIL', form.cleaned_data['email']),
             [site_email],
             headers = {
                 'Reply-To': form.cleaned_data['email']

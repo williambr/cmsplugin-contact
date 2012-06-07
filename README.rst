@@ -58,6 +58,13 @@ AKISMET_API_KEY
 
 The same as for ReCAPTCHA goes fo Akismet.
 
+DEFAULT_FROM_EMAIL
+------------------
+
+This django setting is used to set the ``From`` header of the emails. The value you can enter in django admin only sets the ``Reply-To`` header.
+This is because many servers reject mails that claim to be ``From`` different email addresses than registered with the server.
+
+
 Extending
 =========
 
