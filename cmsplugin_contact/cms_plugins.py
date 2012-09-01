@@ -87,12 +87,12 @@ class ContactPlugin(CMSPluginBase):
             FormClass = ContactForm
             
         if request.method == "POST":
-            return FormClass(request, data=request.POST)
+            return FormClass(request, data=request.POST, files=request.FILES)
         else:
             return FormClass(request)
 
 
-    def send(self, form, site_email):
+    def send(self, form, site_email, attachments=None):
         subject = form.cleaned_data['subject']
         if not subject:
             subject = _('No subject')
@@ -108,6 +108,9 @@ class ContactPlugin(CMSPluginBase):
             headers = {
                 'Reply-To': form.cleaned_data['email']
             },)
+        if attachments:
+            for var_name, data in attachments.iteritems():
+                email_message.attach(data.name, data.read(), data.content_type)
         email_message.send(fail_silently=False)
     
     def render(self, context, instance, placeholder):
@@ -116,7 +119,7 @@ class ContactPlugin(CMSPluginBase):
         form = self.create_form(instance, request)
     
         if request.method == "POST" and form.is_valid():
-            self.send(form, instance.site_email)
+            self.send(form, instance.site_email, attachments=request.FILES)
             context.update( {
                 'contact': instance,
             })
