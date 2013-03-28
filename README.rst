@@ -64,6 +64,13 @@ DEFAULT_FROM_EMAIL
 This django setting is used to set the ``From`` header of the emails. The value you can enter in django admin only sets the ``Reply-To`` header.
 This is because many servers reject mails that claim to be ``From`` different email addresses than registered with the server.
 
+Editors
+=======
+
+The default editor is WYMEditor like in Django CMS.
+The plugin respects the USE_TINYMCE setting of Django CMS. Please see Django CMS docs for more information on how to use TinyMCE.
+If you have the package ``'djangocms_text_ckeditor'`` in your ``INSTALLES_APPS`` CKEditor is used.
+
 
 Extending
 =========
