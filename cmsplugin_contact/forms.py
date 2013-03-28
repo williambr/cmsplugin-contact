@@ -1,12 +1,12 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 #import settings
 from cmsplugin_contact.nospam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
   
 class ContactForm(forms.Form):
-    email = forms.EmailField()
-    subject = forms.CharField(required=False)
-    content = forms.CharField(widget=forms.Textarea())
-
+    email = forms.EmailField(label=_("Email"))
+    subject = forms.CharField(label=_("Subject"), required=False)
+    content = forms.CharField(label=_("Content"), widget=forms.Textarea())
   
 class HoneyPotContactForm(HoneyPotForm):
     pass
