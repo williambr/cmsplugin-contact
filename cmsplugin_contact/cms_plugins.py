@@ -40,6 +40,9 @@ class ContactPlugin(CMSPluginBase):
         if USE_TINYMCE and "tinymce" in settings.INSTALLED_APPS:
             from cms.plugins.text.widgets.tinymce_widget import TinyMCEEditor
             return TinyMCEEditor(installed_plugins=plugins)
+        elif "djangocms_text_ckeditor" in settings.INSTALLED_APPS:
+            from djangocms_text_ckeditor.widgets import TextEditorWidget
+            return TextEditorWidget(installed_plugins=plugins)
         else:
             return WYMEditor(installed_plugins=plugins)
 
