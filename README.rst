@@ -68,7 +68,7 @@ Editors
 =======
 
 The default editor is WYMEditor like in Django CMS.
-The plugin respects the USE_TINYMCE setting of Django CMS. Please see Django CMS docs for more information on how to use TinyMCE.
+The plugin respects the ``USE_TINYMCE`` setting of Django CMS. Please see Django CMS docs for more information on how to use TinyMCE.
 If you have the package ``'djangocms_text_ckeditor'`` in your ``INSTALLES_APPS`` CKEditor is used.
 
 
