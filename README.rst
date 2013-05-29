@@ -79,3 +79,20 @@ See ``examples/cmsplugin_custom_contact`` how to subclass
 ``cmsplugin_contact`` and add custom fields into it. You can override
 properties of the subclassed ``ContactPlugin`` and use your own templates
 and classes.
+
+Signals
+-------
+
+Email sent
+''''''''''
+
+After the contact email has been sent a signal is fired. You can use it like
+this::
+
+    from django.dispatch import receiver
+    from cmsplugin_contact.cms_plugins import email_sent
+
+
+    @receiver(email_sent)
+    def handle_signal(sender, **kwargs):
+        print kwargs['data']

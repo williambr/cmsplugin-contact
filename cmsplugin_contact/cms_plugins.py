@@ -1,3 +1,4 @@
+from django import dispatch
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import CharField
@@ -11,6 +12,10 @@ from cms.plugins.text.widgets.wymeditor_widget import WYMEditor
 from models import Contact
 from forms import ContactForm, AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from admin import ContactAdminForm
+
+
+email_sent = dispatch.Signal(providing_args=["data",])
+
 
 class ContactPlugin(CMSPluginBase):
     model = Contact
@@ -117,6 +122,7 @@ class ContactPlugin(CMSPluginBase):
             for var_name, data in attachments.iteritems():
                 email_message.attach(data.name, data.read(), data.content_type)
         email_message.send(fail_silently=False)
+        email_sent.send(sender=self, data=form.cleaned_data)
     
     def render(self, context, instance, placeholder):
         request = context['request']
