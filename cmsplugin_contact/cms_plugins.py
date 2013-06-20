@@ -82,12 +82,12 @@ class ContactPlugin(CMSPluginBase):
             #if you really want the user to be able to set the key in
             # every form, this should be more flexible
             class ContactForm(self.contact_form, RecaptchaContactForm):
-                recaptcha_public_key = getattr(
-                    settings, "RECAPTCHA_PUBLIC_KEY",
-                    instance.recaptcha_public_key)
-                recaptcha_private_key = getattr(
-                    settings, "RECAPTCHA_PRIVATE_KEY",
-                    instance.recaptcha_private_key)
+                recaptcha_public_key = (instance.recaptcha_public_key or
+                                        getattr(
+                        settings, "RECAPTCHA_PUBLIC_KEY", None))
+                recaptcha_private_key = (instance.recaptcha_private_key or
+                                         getattr(
+                        settings, "RECAPTCHA_PRIVATE_KEY", None))
                 recaptcha_theme = instance.recaptcha_theme
 
             FormClass = ContactForm
