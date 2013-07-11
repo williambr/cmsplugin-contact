@@ -14,7 +14,7 @@ from forms import ContactForm, AkismetContactForm, RecaptchaContactForm, HoneyPo
 from admin import ContactAdminForm
 
 
-email_sent = dispatch.Signal(providing_args=["data",])
+email_sent = dispatch.Signal(providing_args=["data", ])
 
 
 class ContactPlugin(CMSPluginBase):
@@ -25,7 +25,7 @@ class ContactPlugin(CMSPluginBase):
     contact_form = ContactForm
     subject_template = "cmsplugin_contact/subject.txt"
     email_template = "cmsplugin_contact/email.txt"
-    
+
     fieldsets = (
         (None, {
             'fields': ('site_email', 'email_label', 'subject_label', 'content_label', 'thanks', 'submit'),
@@ -34,7 +34,7 @@ class ContactPlugin(CMSPluginBase):
             'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
         })
     )
-    
+
     change_form_template = "cmsplugin_contact/admin/plugin_change_form.html"
 
     def get_editor_widget(self, request, plugins):
@@ -59,17 +59,16 @@ class ContactPlugin(CMSPluginBase):
         class TextPluginForm(self.form):
             pass
         widget = self.get_editor_widget(request, plugins)
-        
+
         thanks_field = self.form.base_fields['thanks']
-        
+
         TextPluginForm.declared_fields["thanks"] = CharField(widget=widget, required=False, label=thanks_field.label, help_text=thanks_field.help_text)
         return TextPluginForm
-
 
     def get_form(self, request, obj=None, **kwargs):
         plugins = plugin_pool.get_text_enabled_plugins(self.placeholder, self.page)
         form = self.get_form_class(request, plugins)
-        kwargs['form'] = form # override standard form
+        kwargs['form'] = form  # override standard form
         return super(ContactPlugin, self).get_form(request, obj, **kwargs)
 
     def create_form(self, instance, request):
@@ -82,12 +81,14 @@ class ContactPlugin(CMSPluginBase):
             #if you really want the user to be able to set the key in
             # every form, this should be more flexible
             class ContactForm(self.contact_form, RecaptchaContactForm):
-                recaptcha_public_key = (instance.recaptcha_public_key or
-                                        getattr(
-                        settings, "RECAPTCHA_PUBLIC_KEY", None))
-                recaptcha_private_key = (instance.recaptcha_private_key or
-                                         getattr(
-                        settings, "RECAPTCHA_PRIVATE_KEY", None))
+                recaptcha_public_key = (
+                    instance.recaptcha_public_key or
+                    getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
+                )
+                recaptcha_private_key = (
+                    instance.recaptcha_private_key or
+                    getattr(settings, "RECAPTCHA_PRIVATE_KEY", None)
+                )
                 recaptcha_theme = instance.recaptcha_theme
 
             FormClass = ContactForm
@@ -95,12 +96,11 @@ class ContactPlugin(CMSPluginBase):
             class ContactForm(self.contact_form, HoneyPotContactForm):
                 pass
             FormClass = ContactForm
-            
+
         if request.method == "POST":
             return FormClass(request, data=request.POST, files=request.FILES)
         else:
             return FormClass(request)
-
 
     def send(self, form, site_email, attachments=None):
         subject = form.cleaned_data['subject']
@@ -115,23 +115,22 @@ class ContactPlugin(CMSPluginBase):
             }),
             getattr(settings, 'DEFAULT_FROM_EMAIL', form.cleaned_data['email']),
             [site_email],
-            headers = {
-                'Reply-To': form.cleaned_data['email']
-            },)
+            headers={'Reply-To': form.cleaned_data['email']},
+        )
         if attachments:
             for var_name, data in attachments.iteritems():
                 email_message.attach(data.name, data.read(), data.content_type)
         email_message.send(fail_silently=False)
         email_sent.send(sender=self, data=form.cleaned_data)
-    
+
     def render(self, context, instance, placeholder):
         request = context['request']
 
         form = self.create_form(instance, request)
-    
+
         if request.method == "POST" and form.is_valid():
             self.send(form, instance.site_email, attachments=request.FILES)
-            context.update( {
+            context.update({
                 'contact': instance,
             })
         else:
@@ -139,7 +138,7 @@ class ContactPlugin(CMSPluginBase):
                 'contact': instance,
                 'form': form,
             })
-            
+
         return context
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
@@ -148,8 +147,8 @@ class ContactPlugin(CMSPluginBase):
             'recaptcha_settings': hasattr(settings, "RECAPTCHA_PUBLIC_KEY"),
             'akismet_settings': hasattr(settings, "AKISMET_API_KEY"),
         })
-        
+
         return super(ContactPlugin, self).render_change_form(request, context, add, change, form_url, obj)
-        
-    
+
+
 plugin_pool.register_plugin(ContactPlugin)
