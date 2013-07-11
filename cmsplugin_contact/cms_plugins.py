@@ -3,12 +3,15 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import CharField
 from django.core.mail import EmailMessage
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, find_template, TemplateDoesNotExist
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from cms.plugins.text.settings import USE_TINYMCE
-from cms.plugins.text.widgets.wymeditor_widget import WYMEditor
+try:
+    from cms.plugins.text.settings import USE_TINYMCE
+except ImportError:
+    USE_TINYMCE = False
+
 from models import Contact
 from forms import ContactForm, AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from admin import ContactAdminForm
@@ -49,6 +52,7 @@ class ContactPlugin(CMSPluginBase):
             from djangocms_text_ckeditor.widgets import TextEditorWidget
             return TextEditorWidget(installed_plugins=plugins)
         else:
+            from cms.plugins.text.widgets.wymeditor_widget import WYMEditor
             return WYMEditor(installed_plugins=plugins)
 
     def get_form_class(self, request, plugins):
@@ -142,10 +146,18 @@ class ContactPlugin(CMSPluginBase):
         return context
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
+        template = "admin/cms/page/plugin/change_form.html"  # django-cms 3.0
+        try:
+            find_template(template)
+        except TemplateDoesNotExist:
+            # django-cms < 3.0
+            template = "admin/cms/page/plugin_change_form.html"
+
         context.update({
             'spam_protection_method': obj.spam_protection_method if obj else 0,
             'recaptcha_settings': hasattr(settings, "RECAPTCHA_PUBLIC_KEY"),
             'akismet_settings': hasattr(settings, "AKISMET_API_KEY"),
+            'parent_template': template
         })
 
         return super(ContactPlugin, self).render_change_form(request, context, add, change, form_url, obj)
