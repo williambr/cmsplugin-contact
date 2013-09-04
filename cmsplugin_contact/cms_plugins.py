@@ -31,7 +31,7 @@ class ContactPlugin(CMSPluginBase):
 
     fieldsets = (
         (None, {
-            'fields': ('site_email', 'email_label', 'subject_label', 'content_label', 'thanks', 'submit'),
+            'fields': ('form_name', 'site_email', 'email_label', 'subject_label', 'content_label', 'thanks', 'submit'),
         }),
         (_('Spam Protection'), {
             'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
@@ -106,18 +106,21 @@ class ContactPlugin(CMSPluginBase):
         else:
             return FormClass(request)
 
-    def send(self, form, site_email, attachments=None):
-        subject = form.cleaned_data['subject']
-        if not subject:
-            subject = _('No subject')
+    def send(self, form, form_name, site_email, attachments=None):
+        subject = form.cleaned_data['subject'] if form.cleaned_data['subject'] else _('No subject')
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', form.cleaned_data['email'])
         email_message = EmailMessage(
             render_to_string(self.subject_template, {
                 'subject': subject,
+                'form_name': form_name,
             }).splitlines()[0],
             render_to_string(self.email_template, {
                 'data': form.cleaned_data,
+                'form_name': form_name,
+                'from_email': from_email,
+                'user_email': form.cleaned_data['email'],
             }),
-            getattr(settings, 'DEFAULT_FROM_EMAIL', form.cleaned_data['email']),
+            from_email,
             [site_email],
             headers={'Reply-To': form.cleaned_data['email']},
         )
@@ -133,7 +136,7 @@ class ContactPlugin(CMSPluginBase):
         form = self.create_form(instance, request)
 
         if request.method == "POST" and form.is_valid():
-            self.send(form, instance.site_email, attachments=request.FILES)
+            self.send(form, instance.form_name, instance.site_email, attachments=request.FILES)
             context.update({
                 'contact': instance,
             })
