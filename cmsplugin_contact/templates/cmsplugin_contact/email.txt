@@ -1,1 +1,3 @@
+{% load i18n %}{% trans "Message from" %}: {{ user_email }}
+
 {{ data.content|safe }}
