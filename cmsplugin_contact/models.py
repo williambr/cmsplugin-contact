@@ -17,7 +17,11 @@ class BaseContact(CMSPlugin):
         ('blackglass', 'Black Glass'),
         ('custom', 'Custom'),
     )
-    
+
+    form_name = models.CharField(_('Form name'),
+                                   blank=True,
+                                   max_length=60,
+                                   help_text=_('Used to distinguish multiple contact forms on the same site.'))
     site_email = models.EmailField(_('Email recipient'))
     email_label = models.CharField(_('Email sender label'),
                                    default=_('Your email address'),

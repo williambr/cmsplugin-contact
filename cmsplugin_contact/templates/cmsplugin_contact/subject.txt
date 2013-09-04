@@ -1,1 +1,1 @@
-[Contactform] {{ subject|safe }}
+[{{ form_name|default:"Contact Form" }}] {{ subject|safe }}
