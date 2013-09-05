@@ -4,9 +4,13 @@ Django CMS Contact Form Plugin
 
 Contact form plugin for `Django CMS <http://www.django-cms.org/>`_ with spam protection and i18n.
 
-If you want to use ReCAPTCHA you have to get a Public and Private Key from http://www.google.com/recaptcha. You can get them for free.
+The message entered by the web user is turned into an email which is sent to the email address
+configured for the specific plugin instance.
 
-The Akismet spam protection method requires an Akismet API Key which is obtainable from http://akismet.com/ For private persons this is free, too.
+Spam protection is provided by either `ReCAPTCHA <http://www.google.com/recaptcha>`_ (free) or
+`Akismet <http://akismet.com/>`_ (free for personal use).
+Visit the respective website to obtain the keys required to activate the protection method of your
+choice.
 
 Dependencies
 ============
@@ -36,8 +40,8 @@ You can simply type into a terminal ``pip install cmsplugin-contact`` or ``easy_
 Manually
 ''''''''
 
-You can download a zipped archive from http://github.com/maccesch/cmsplugin-contact/downloads.
-
+You can download a zip archive of the `latest development version 
+<https://github.com/maccesch/cmsplugin-contact/archive/master.zip>`_ from GitHub. 
 Unzip the file you downloaded. Then go in your terminal and ``cd`` into the unpacked folder. Then type ``python setup.py install`` in your terminal.
 
 Setup
@@ -47,6 +51,25 @@ Put ``'cmsplugin_contact'`` in your ``INSTALLED_APPS`` section in settings.py. D
 
 Settings
 ========
+
+DEFAULT_FROM_EMAIL
+------------------
+
+The email address that is used to send the message is picked up from ``DEFAULT_FROM_EMAIL``
+`Django setting <https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email>`_.
+Additionally, the ``Reply-To:`` header is set to the user-supplied email address.
+
+Sending the message using the user-supplied address to set ``From:`` header of the email is
+currently not supported.
+This is because many servers will reject emails that use ``From:`` addresses not registered with
+that server.
+Some servers may also strip the ``Reply-To:`` header. For this, the user-supplied email address
+is also added to the body of the message.
+
+.. Note:
+.. The info about Reply-To: header is unrelated to the DEFAULT_FROM_EMAIL setting.
+.. At some point it should be moved in a more suitable place in the documentation.
+
 
 RECAPTCHA_PUBLIC_KEY and RECAPTCHA_PRIVATE_KEY
 ----------------------------------------------
@@ -58,11 +81,6 @@ AKISMET_API_KEY
 
 The same as for ReCAPTCHA goes fo Akismet.
 
-DEFAULT_FROM_EMAIL
-------------------
-
-This django setting is used to set the ``From`` header of the emails. The value you can enter in django admin only sets the ``Reply-To`` header.
-This is because many servers reject mails that claim to be ``From`` different email addresses than registered with the server.
 
 Editors
 =======

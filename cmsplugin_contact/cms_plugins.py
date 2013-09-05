@@ -108,7 +108,7 @@ class ContactPlugin(CMSPluginBase):
 
     def send(self, form, form_name, site_email, attachments=None):
         subject = form.cleaned_data['subject'] if form.cleaned_data['subject'] else _('No subject')
-        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', form.cleaned_data['email'])
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL')
         email_message = EmailMessage(
             render_to_string(self.subject_template, {
                 'subject': subject,
