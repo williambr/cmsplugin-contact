@@ -57,10 +57,19 @@ DEFAULT_FROM_EMAIL
 
 The email address that is used to send the message is picked up from ``DEFAULT_FROM_EMAIL``
 `Django setting <https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email>`_.
+Additionally, the ``Reply-To:`` header is set to the user-supplied email address.
+
 Sending the message using the user-supplied address to set ``From:`` header of the email is
 currently not supported.
 This is because many servers will reject emails that use ``From:`` addresses not registered with
 that server.
+Some servers may also strip the ``Reply-To:`` header. For this, the user-supplied email address
+is also added to the body of the message.
+
+.. Note:
+.. The info about Reply-To: header is unrelated to the DEFAULT_FROM_EMAIL setting.
+.. At some point it should be moved in a more suitable place in the documentation.
+
 
 RECAPTCHA_PUBLIC_KEY and RECAPTCHA_PRIVATE_KEY
 ----------------------------------------------
