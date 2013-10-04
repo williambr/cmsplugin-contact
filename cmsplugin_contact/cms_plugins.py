@@ -138,7 +138,10 @@ class ContactPlugin(CMSPluginBase):
         request = context['request']
 
         form = self.create_form(instance, request)
-        instance.render_template = form.template
+        template = getattr(form, 'template', None)
+        if template:
+            instance.render_template = template
+
         if request.method == "POST" and form.is_valid():
             self.send(form, instance.form_name, instance.site_email, attachments=request.FILES)
             context.update({
