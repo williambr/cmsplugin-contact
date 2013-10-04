@@ -81,6 +81,35 @@ AKISMET_API_KEY
 
 The same as for ReCAPTCHA goes fo Akismet.
 
+CMSPLUGIN_CONTACT_FORMS
+-----------------------
+
+Default:
+``
+    (
+        ('cmsplugin_contact.forms.ContactForm', _('default')),
+    )
+``
+
+You can use your custom ContactForm, just add a new tuple with the class path and name pretty name to show for your user.
+
+If you want to steal using the default ContactForm, do like this in your settings:
+
+``
+    (
+        ('cmsplugin_contact.forms.ContactForm', _('default')),
+        ('my_app.forms.MyContactForm', _('My form')),
+    )
+``
+
+In your custom form, you can set what template you want to use, like this
+
+``
+class MyContactFomr(Form):
+    ...
+    template = 'path/to/my_contact_template.html'
+``
+
 
 Editors
 =======
