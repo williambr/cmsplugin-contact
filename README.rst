@@ -101,7 +101,7 @@ If you want to steal using the default ContactForm, do like this in your setting
 
 In your custom form, you can set what template you want to use, like this::
 
-    class MyContactFomr(Form):
+    class MyContactForm(Form):
         ...
         template = 'path/to/my_contact_template.html'
 
