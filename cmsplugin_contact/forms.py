@@ -7,6 +7,8 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label=_("Email"))
     subject = forms.CharField(label=_("Subject"), required=False)
     content = forms.CharField(label=_("Content"), widget=forms.Textarea())
+
+    template = "cmsplugin_contact/contact.html"
   
 class HoneyPotContactForm(HoneyPotForm):
     pass
