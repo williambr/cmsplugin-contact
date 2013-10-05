@@ -8,3 +8,4 @@ DS_STORE
 build
 dist
 cmsplugin_contact.egg-info
+.idea
