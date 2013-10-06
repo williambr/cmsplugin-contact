@@ -3,6 +3,9 @@ from django.utils.translation import ugettext_lazy as _
 from cms.models import CMSPlugin
 
 # Feel free to extend this class instead of Contact.
+from cmsplugin_contact import settings
+
+
 class BaseContact(CMSPlugin):
     SPAM_PROTECTION_CHOICES = (
         (0, 'Honeypot'),
@@ -22,14 +25,13 @@ class BaseContact(CMSPlugin):
                                    blank=True,
                                    max_length=60,
                                    help_text=_('Used to distinguish multiple contact forms on the same site.'))
+    form_layout = models.CharField(_('Form Layout'),
+                                   max_length=255,
+                                   help_text=_('Choice the layout of contact form'),
+                                   choices=settings.CMSPLUGIN_CONTACT_FORMS
+                                   )
     site_email = models.EmailField(_('Email recipient'))
-    email_label = models.CharField(_('Email sender label'),
-                                   default=_('Your email address'),
-                                   max_length=100)
-    subject_label = models.CharField(_('Subject label'),
-                                     default=_('Subject'), max_length=200)
-    content_label = models.CharField(_('Message content label'),
-                                     default=_('Message'), max_length=100)
+
     thanks = models.TextField(
         verbose_name=_("Thanks message"),
         help_text=_('Message displayed on successful submit'),

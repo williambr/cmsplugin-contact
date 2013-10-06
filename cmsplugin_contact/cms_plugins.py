@@ -1,3 +1,4 @@
+import os
 from django import dispatch
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -7,13 +8,15 @@ from django.template.loader import render_to_string, find_template, TemplateDoes
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+from cmsplugin_contact.utils import class_for_path
+
 try:
     from cms.plugins.text.settings import USE_TINYMCE
 except ImportError:
     USE_TINYMCE = False
 
 from models import Contact
-from forms import ContactForm, AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
+from forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
 from admin import ContactAdminForm
 
 
@@ -25,13 +28,12 @@ class ContactPlugin(CMSPluginBase):
     name = _("Contact Form")
     render_template = "cmsplugin_contact/contact.html"
     form = ContactAdminForm
-    contact_form = ContactForm
     subject_template = "cmsplugin_contact/subject.txt"
     email_template = "cmsplugin_contact/email.txt"
 
     fieldsets = (
         (None, {
-            'fields': ('form_name', 'site_email', 'email_label', 'subject_label', 'content_label', 'thanks', 'submit'),
+            'fields': ('form_name', 'form_layout', 'site_email', 'thanks', 'submit'),
         }),
         (_('Spam Protection'), {
             'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
@@ -76,15 +78,18 @@ class ContactPlugin(CMSPluginBase):
         return super(ContactPlugin, self).get_form(request, obj, **kwargs)
 
     def create_form(self, instance, request):
+
+        ContactFormBase = class_for_path(instance.form_layout)
+
         if instance.get_spam_protection_method_display() == 'Akismet':
             AkismetContactForm.aksimet_api_key = instance.akismet_api_key
-            class ContactForm(self.contact_form, AkismetContactForm):
+            class ContactForm(ContactFormBase, AkismetContactForm):
                 pass
             FormClass = ContactForm
         elif instance.get_spam_protection_method_display() == 'ReCAPTCHA':
             #if you really want the user to be able to set the key in
             # every form, this should be more flexible
-            class ContactForm(self.contact_form, RecaptchaContactForm):
+            class ContactForm(ContactFormBase, RecaptchaContactForm):
                 recaptcha_public_key = (
                     instance.recaptcha_public_key or
                     getattr(settings, "RECAPTCHA_PUBLIC_KEY", None)
@@ -97,7 +102,7 @@ class ContactPlugin(CMSPluginBase):
 
             FormClass = ContactForm
         else:
-            class ContactForm(self.contact_form, HoneyPotContactForm):
+            class ContactForm(ContactFormBase, HoneyPotContactForm):
                 pass
             FormClass = ContactForm
 
@@ -107,18 +112,26 @@ class ContactPlugin(CMSPluginBase):
             return FormClass(request)
 
     def send(self, form, form_name, site_email, attachments=None):
-        subject = form.cleaned_data['subject'] if form.cleaned_data['subject'] else _('No subject')
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL')
+
+        subject_template = getattr(form, 'subject_template', self.subject_template)
+        email_template = getattr(form, 'email_template', self.email_template)
+
+        email_template_extension = os.path.splitext(email_template)[1]
+
+        content_subtype = 'plain'
+        if email_template_extension == '.html':
+            content_subtype = 'html'
+
         email_message = EmailMessage(
-            render_to_string(self.subject_template, {
-                'subject': subject,
+            render_to_string(subject_template, {
+                'data': form.cleaned_data,
                 'form_name': form_name,
             }).splitlines()[0],
-            render_to_string(self.email_template, {
+            render_to_string(email_template, {
                 'data': form.cleaned_data,
                 'form_name': form_name,
                 'from_email': from_email,
-                'user_email': form.cleaned_data['email'],
             }),
             from_email,
             [site_email],
@@ -127,6 +140,7 @@ class ContactPlugin(CMSPluginBase):
         if attachments:
             for var_name, data in attachments.iteritems():
                 email_message.attach(data.name, data.read(), data.content_type)
+        email_message.content_subtype = content_subtype
         email_message.send(fail_silently=False)
         email_sent.send(sender=self, data=form.cleaned_data)
 
@@ -134,6 +148,7 @@ class ContactPlugin(CMSPluginBase):
         request = context['request']
 
         form = self.create_form(instance, request)
+        instance.render_template = getattr(form, 'template', self.render_template)
 
         if request.method == "POST" and form.is_valid():
             self.send(form, instance.form_name, instance.site_email, attachments=request.FILES)
