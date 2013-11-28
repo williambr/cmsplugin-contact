@@ -42,7 +42,7 @@ class RecaptchaForm(BaseForm):
                 label = _('Please enter the two words on the image separated by a space:'),
                 error_messages = {
                     'required': _('You did not enter any of the words.')
-            })
+                })
     recaptcha_always_validate = False
     
     def __init__(self, *args, **kwargs):
@@ -72,31 +72,29 @@ class RecaptchaForm(BaseForm):
         # Move the ReCAPTCHA fields to the end of the form
         self.fields['recaptcha_challenge_field'] = self.fields.pop('recaptcha_challenge_field')
         self.fields['recaptcha_response_field'] = self.fields.pop('recaptcha_response_field')
-
-       
-    def clean_recaptcha_response_field(self):
-        if 'recaptcha_challenge_field' in self.cleaned_data:
-            self._validate_captcha()
-        return self.cleaned_data['recaptcha_response_field']
-
-    def clean_recaptcha_challenge_field(self):
-        if 'recaptcha_response_field' in self.cleaned_data:
-            self._validate_captcha()
-        return self.cleaned_data['recaptcha_challenge_field']
     
-    def _validate_captcha(self):
+    # since we depend on two fields, we should clean the captcha in the clean method
+    def clean(self):
+        cd = self.cleaned_data
         if not self.recaptcha_always_validate:
-            rcf = self.cleaned_data['recaptcha_challenge_field']
-            rrf = self.cleaned_data['recaptcha_response_field']
-            if rrf == '':
-                raise forms.ValidationError(_('You did not enter the two words shown in the image.'))
+            if not (bool(cd.get('recaptcha_response_field')) & bool(cd.get('recaptcha_challenge_field'))):
+                if not cd.get('recaptcha_challenge_field'):
+                    self._errors['recaptcha_challenge_field'] = self.error_class([_('An unexpected Error occurred, please try again.')])
+                if not cd.get('recaptcha_response_field'):
+                    self._errors['recaptcha_response_field'] = self.error_class([_('Please enter the two words shown in the image.')])
             else:
+                rcf = self.cleaned_data['recaptcha_challenge_field']
+                rrf = self.cleaned_data['recaptcha_response_field']
                 from recaptcha.client import captcha as recaptcha
                 ip = self._request.META['REMOTE_ADDR']
                 check = recaptcha.submit(rcf, rrf, self._recaptcha_private_key, ip)
                 if not check.is_valid:
-                    raise forms.ValidationError(_('The words you entered did not match the image.'))
-
+                    self._errors['recaptcha_response_field'] = self.error_class([_('The words you entered did not match the image. Please try again.')])
+                    del cd['recaptcha_response_field']
+                
+                
+        return cd
+       
 class HoneyPotForm(BaseForm):
     accept_terms = HoneypotField()
     
