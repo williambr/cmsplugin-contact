@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 11:52+0200\n"
+"POT-Creation-Date: 2014-03-16 09:02-0300\n"
 "PO-Revision-Date: 2011-05-15 11:54\n"
 "Last-Translator:   <william@agencialivre.com.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,122 +58,151 @@ msgstr ""
 "Biblioteca ReCAPTCHA não está instalada. Use \"easy_install recaptcha-client"
 "\" or \"pip install recaptcha-client\"."
 
-#: cms_plugins.py:17
+#: cms_plugins.py:28 templates/cmsplugin_contact/subject.txt:1
 msgid "Contact Form"
 msgstr "Formulário de Contato"
 
-#: cms_plugins.py:25
+#: cms_plugins.py:38
 msgid "Spam Protection"
 msgstr "Proteção de Spam"
 
-#: cms_plugins.py:87
-msgid "No subject"
-msgstr "Sem assunto"
+#: forms.py:7
+msgid "Email"
+msgstr ""
 
-#: models.py:20
-msgid "Email recipient"
-msgstr "E-mail de destino"
-
-#: models.py:21
-msgid "Email sender label"
-msgstr "Rótulo de e-mail do remetente"
-
-#: models.py:21
-msgid "Your email address"
-msgstr "Seu endereço de e-mail"
-
-#: models.py:22
-msgid "Subject label"
-msgstr "Rótulo do assunto"
-
-#: models.py:22
+#: forms.py:8
 msgid "Subject"
 msgstr "Assunto"
 
-#: models.py:23
-msgid "Message content label"
-msgstr "Rótulo do conteúdo da mensagem"
-
-#: models.py:23
-msgid "Message"
-msgstr "Mensagem"
+#: forms.py:9
+msgid "Content"
+msgstr "Conteúdo"
 
 #: models.py:24
+msgid "Form name"
+msgstr "Nome do formulário"
+
+#: models.py:27
+msgid "Used to distinguish multiple contact forms on the same site."
+msgstr "Usado para distingüir múltiplos formulários de contato no mesmo site."
+
+#: models.py:28
+msgid "Form Layout"
+msgstr "Layout do Formulário"
+
+#: models.py:30
+msgid "Choice the layout of contact form"
+msgstr "Selecione o layout do formulário de contato"
+
+#: models.py:33
+msgid "Email recipient"
+msgstr "E-mail de destino"
+
+#: models.py:36
 msgid "Thanks message"
 msgstr "Mensagem de agradecimento"
 
-#: models.py:24
+#: models.py:37
 msgid "Message displayed on successful submit"
 msgstr "Mensagem exibida em caso de sucesso"
 
-#: models.py:24
+#: models.py:38
 msgid "Thank you for your message."
 msgstr "Obrigado for sua mensagem."
 
-#: models.py:25
+#: models.py:39
 msgid "Submit button value"
 msgstr "Nome do botão de envio"
 
-#: models.py:25
+#: models.py:40
 msgid "Submit"
 msgstr "Enviar"
 
-#: models.py:27
+#: models.py:43
 msgid "Spam protection method"
 msgstr "Método de proteção de spam"
 
-#: models.py:33
+#: models.py:53
 msgid "ReCAPTCHA theme"
 msgstr "Tema do ReCAPTCHA"
 
+#: settings.py:7
+msgid "default"
+msgstr ""
+
 #: nospam/fields.py:13
 msgid "Please don't check this box."
-msgstr ""
+msgstr "Por favor não selecione esta caixa."
 
 #: nospam/forms.py:42
 msgid "Please enter the two words on the image separated by a space:"
-msgstr ""
+msgstr "Por favor digite as duas palavras da imagem separadas por um espaço:"
 
 #: nospam/forms.py:44
 msgid "You did not enter any of the words."
-msgstr ""
+msgstr "Você não digitou com as palavras."
+
+#: nospam/forms.py:82
+#, fuzzy
+msgid "An unexpected Error occurred, please try again."
+msgstr "Incorreto, por favor tente novamente"
+
+#: nospam/forms.py:84
+msgid "Please enter the two words shown in the image."
+msgstr "Por favor digite as duas palavras mostradas na imagem."
 
 #: nospam/forms.py:92
-msgid "You did not enter the two words shown in the image."
-msgstr ""
-
-#: nospam/forms.py:98
-msgid "The words you entered did not match the image."
-msgstr ""
+msgid "The words you entered did not match the image. Please try again."
+msgstr "As palavras que você digitou não combinam com a imagem. Por favor tente novamente."
 
 #: nospam/widgets.py:30
 msgid "Are you a robot?"
-msgstr ""
+msgstr "Você é um robô?"
 
-#: templates/cmsplugin_contact/contact.html:39
+#: templates/cmsplugin_contact/contact.html:25
 msgid "Incorrect please try again"
 msgstr "Incorreto, por favor tente novamente"
 
-#: templates/cmsplugin_contact/contact.html:42
+#: templates/cmsplugin_contact/contact.html:28
 msgid "Enter the words above:"
 msgstr "Digita as palavras acima:"
 
-#: templates/cmsplugin_contact/contact.html:43
+#: templates/cmsplugin_contact/contact.html:29
 msgid "Enter the numbers you hear:"
 msgstr "Digita os número que você ouvir:"
 
-#: templates/cmsplugin_contact/contact.html:48
+#: templates/cmsplugin_contact/contact.html:34
 msgid "Get another CAPTCHA"
 msgstr "Obter outro CAPTCHA"
 
-#: templates/cmsplugin_contact/contact.html:49
+#: templates/cmsplugin_contact/contact.html:35
 msgid "Get an audio CAPTCHA"
 msgstr "Obter um audio CAPTCHA"
 
-#: templates/cmsplugin_contact/contact.html:50
+#: templates/cmsplugin_contact/contact.html:36
 msgid "Get an image CAPTCHA"
 msgstr "Obter uma imagem CAPTCHA"
 
-#: templates/cmsplugin_contact/contact.html:52
+#: templates/cmsplugin_contact/contact.html:38
 msgid "Help"
 msgstr "Ajuda"
+
+#: templates/cmsplugin_contact/email.txt:1
+#, fuzzy
+msgid "Message from"
+msgstr "Mensagem"
+
+#~ msgid "No subject"
+#~ msgstr "Sem assunto"
+
+#~ msgid "Email sender label"
+#~ msgstr "Rótulo de e-mail do remetente"
+
+#~ msgid "Your email address"
+#~ msgstr "Seu endereço de e-mail"
+
+#~ msgid "Subject label"
+#~ msgstr "Rótulo do assunto"
+
+#~ msgid "Message content label"
+#~ msgstr "Rótulo do conteúdo da mensagem"
