@@ -31,6 +31,9 @@ class ContactPlugin(CMSPluginBase):
     subject_template = "cmsplugin_contact/subject.txt"
     email_template = "cmsplugin_contact/email.txt"
 
+    cache = False  # this is a form, should always be reloaded.
+    # (New in django-cms 3.0c, all plugins are cached through django cache)
+
     fieldsets = (
         (None, {
             'fields': ('form_name', 'form_layout', 'site_email', 'thanks', 'submit'),
