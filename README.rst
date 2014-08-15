@@ -49,6 +49,9 @@ Setup
 
 Put ``'cmsplugin_contact'`` in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database or migrate if you're using South.
 
+Put ``'cmsplugin_contact.middleware.ForceResponseMiddleware'`` in your ``MIDDLEWARE_CLASSES`` section in settings.py.
+
+
 Settings
 ========
 

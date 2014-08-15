@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='cmsplugin-contact',
-    version='1.0.0',
+    version='1.0.1',
     description='Extendable contact form plugin for Django CMS with spam protection and i18n',
     long_description=open('README.rst').read(),
     author='Maccesch',
