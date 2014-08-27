@@ -17,9 +17,9 @@ try:
 except ImportError:
     USE_TINYMCE = False
 
-from models import Contact
-from forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
-from admin import ContactAdminForm
+from .models import Contact
+from .forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
+from .admin import ContactAdminForm
 
 email_sent = dispatch.Signal(providing_args=["data", ])
 
