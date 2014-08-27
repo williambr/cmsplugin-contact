@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from models import Contact
+from .models import Contact
 
 class KeyField(CharField):
     def validate(self, value):
