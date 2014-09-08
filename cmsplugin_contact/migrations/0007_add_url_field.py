@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         db.add_column(u'cmsplugin_contact_contact', 'redirect_url',
-                      self.gf('django.db.models.fields.URLField')(blank=True),
+                      self.gf('django.db.models.fields.URLField')(blank=True, default=''),
                       keep_default=False)
 
     def backwards(self, orm):
