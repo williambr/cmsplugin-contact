@@ -43,7 +43,8 @@ class ContactPlugin(CMSPluginBase):
            'fields': ('thanks', 'redirect_url' ),
         } ),
         (_('Spam Protection'), {
-            'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
+            'fields': ('spam_protection_method', 'akismet_api_key',
+                       'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
         })
     )
 
@@ -118,7 +119,11 @@ class ContactPlugin(CMSPluginBase):
             form = FormClass(request, data=request.POST, files=request.FILES)
         else:
             form = FormClass(request)
-        form.fields['my_name'] = forms.CharField(max_length=len(instance.form_name), widget=forms.HiddenInput, label='', initial=instance.form_name)
+        form.fields['my_name'] = forms.CharField(max_length=len(instance.form_name),
+                                                 widget=forms.HiddenInput,
+                                                 label='',
+                                                 initial=instance.form_name,
+                                                 required=False)
         return form
 
     def send(self, form, form_name, site_email, attachments=None):
