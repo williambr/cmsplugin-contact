@@ -1,73 +1,34 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Contact'
-        db.create_table('cmsplugin_contact', (
-            ('cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
-            ('site_email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('email_label', self.gf('django.db.models.fields.CharField')(default=u'Your email address', max_length=100)),
-            ('subject_label', self.gf('django.db.models.fields.CharField')(default=u'Subject', max_length=200)),
-            ('content_label', self.gf('django.db.models.fields.CharField')(default=u'Message', max_length=100)),
-            ('thanks', self.gf('django.db.models.fields.CharField')(default=u'Thank you for your message.', max_length=200)),
-            ('submit', self.gf('django.db.models.fields.CharField')(default=u'Submit', max_length=30)),
-            ('spam_protection_method', self.gf('django.db.models.fields.SmallIntegerField')(default=0)),
-            ('akismet_api_key', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('recaptcha_public_key', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('recaptcha_private_key', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('recaptcha_theme', self.gf('django.db.models.fields.CharField')(default='clean', max_length=20)),
-        ))
-        db.send_create_signal('cmsplugin_contact', ['Contact'])
+from django.db import models, migrations
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Contact'
-        db.delete_table('cmsplugin_contact')
+class Migration(migrations.Migration):
 
+    dependencies = [
+        ('cms', '0003_auto_20140926_2347'),
+    ]
 
-    models = {
-        'cms.cmsplugin': {
-            'Meta': {'object_name': 'CMSPlugin'},
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '15', 'db_index': 'True'}),
-            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.CMSPlugin']", 'null': 'True', 'blank': 'True'}),
-            'placeholder': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['cms.Placeholder']", 'null': 'True'}),
-            'plugin_type': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'}),
-            'position': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
-        },
-        'cms.placeholder': {
-            'Meta': {'object_name': 'Placeholder'},
-            'default_width': ('django.db.models.fields.PositiveSmallIntegerField', [], {'null': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'slot': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'})
-        },
-        'cmsplugin_contact.contact': {
-            'Meta': {'object_name': 'Contact', 'db_table': "'cmsplugin_contact'", '_ormbases': ['cms.CMSPlugin']},
-            'akismet_api_key': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'content_label': ('django.db.models.fields.CharField', [], {'default': "u'Message'", 'max_length': '100'}),
-            'email_label': ('django.db.models.fields.CharField', [], {'default': "u'Your email address'", 'max_length': '100'}),
-            'recaptcha_private_key': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'recaptcha_public_key': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'recaptcha_theme': ('django.db.models.fields.CharField', [], {'default': "'clean'", 'max_length': '20'}),
-            'site_email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            'spam_protection_method': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
-            'subject_label': ('django.db.models.fields.CharField', [], {'default': "u'Subject'", 'max_length': '200'}),
-            'submit': ('django.db.models.fields.CharField', [], {'default': "u'Submit'", 'max_length': '30'}),
-            'thanks': ('django.db.models.fields.CharField', [], {'default': "u'Thank you for your message.'", 'max_length': '200'})
-        }
-    }
-
-    complete_apps = ['cmsplugin_contact']
+    operations = [
+        migrations.CreateModel(
+            name='Contact',
+            fields=[
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('form_name', models.CharField(help_text='Used to distinguish multiple contact forms on the same site.', max_length=60, verbose_name='Form name', blank=True)),
+                ('form_layout', models.CharField(help_text='Choice the layout of contact form', max_length=255, verbose_name='Form Layout', choices=[(b'cmsplugin_contact.forms.ContactForm', b'Padrao'), (b'ecourses.www.forms.TestimonyForm', b'Depoimento')])),
+                ('site_email', models.EmailField(max_length=75, verbose_name='Email recipient')),
+                ('thanks', models.TextField(default='Thank you for your message.', help_text='Message displayed on successful submit', max_length=200, verbose_name='Thanks message')),
+                ('submit', models.CharField(default='Submit', max_length=30, verbose_name='Submit button value')),
+                ('spam_protection_method', models.SmallIntegerField(default=0, verbose_name='Spam protection method', choices=[(0, b'Honeypot'), (1, b'Akismet'), (2, b'ReCAPTCHA')])),
+                ('akismet_api_key', models.CharField(max_length=255, blank=True)),
+                ('recaptcha_public_key', models.CharField(max_length=255, blank=True)),
+                ('recaptcha_private_key', models.CharField(max_length=255, blank=True)),
+                ('recaptcha_theme', models.CharField(default=b'clean', max_length=20, verbose_name='ReCAPTCHA theme', choices=[(b'clean', b'Clean'), (b'red', b'Red'), (b'white', b'White'), (b'blackglass', b'Black Glass'), (b'custom', b'Custom')])),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=('cms.cmsplugin',),
+        ),
+    ]
