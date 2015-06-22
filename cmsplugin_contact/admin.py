@@ -20,6 +20,7 @@ class ContactAdminForm(ModelForm):
     
     class Meta:
         model = Contact
+        fields = '__all__'
         
     def _add_error(self, field_name, error):
         if not field_name in self._errors:
