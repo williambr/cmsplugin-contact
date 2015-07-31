@@ -22,7 +22,9 @@ If you decide to use the ReCAPTCHA spam protection method you need to install th
 
 If you use Akismet for spam protection ``akismet`` is needed. You also need to set your domain url in django admin in the section "sites".
 
-Both libraries can be installed by ``pip`` or ``easy_install``.
+For Python version <2.7, ``importlib`` has to be installed since ``importlib`` is in the standard library in Python 2.7, but is a third-party package for older versions.
+
+All libraries can be installed by ``pip`` or ``easy_install``.
 
 It is recommended but not required to use South. Again it can be easily installed by ``pip`` or ``easy_install``.
 
@@ -48,6 +50,9 @@ Setup
 -----
 
 Put ``'cmsplugin_contact'`` in your ``INSTALLED_APPS`` section in settings.py. Don't forget to syncdb your database or migrate if you're using South.
+
+Put ``'cmsplugin_contact.middleware.ForceResponseMiddleware'`` in your ``MIDDLEWARE_CLASSES`` section in settings.py.
+
 
 Settings
 ========

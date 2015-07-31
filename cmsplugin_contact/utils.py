@@ -7,3 +7,4 @@ def class_for_path(class_path):
     m = importlib.import_module(module_name)
     c = getattr(m, class_name)
     return c
+

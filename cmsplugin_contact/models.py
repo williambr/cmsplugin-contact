@@ -52,6 +52,8 @@ class BaseContact(CMSPlugin):
                                        default='clean',
                                        verbose_name=_('ReCAPTCHA theme'))
 
+    redirect_url = models.URLField(_('URL Redirection'), help_text=_('If it is set, the form redirect to url when the form is valid'), blank=True)
+
     class Meta:
         abstract = True
     

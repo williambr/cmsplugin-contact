@@ -3,8 +3,10 @@ from django import dispatch
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.forms.fields import CharField
+from django import forms
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string, find_template, TemplateDoesNotExist
+from django.http import HttpResponseRedirect
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
@@ -15,10 +17,9 @@ try:
 except ImportError:
     USE_TINYMCE = False
 
-from models import Contact
-from forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
-from admin import ContactAdminForm
-
+from .models import Contact
+from .forms import AkismetContactForm, RecaptchaContactForm, HoneyPotContactForm
+from .admin import ContactAdminForm
 
 email_sent = dispatch.Signal(providing_args=["data", ])
 
@@ -31,12 +32,19 @@ class ContactPlugin(CMSPluginBase):
     subject_template = "cmsplugin_contact/subject.txt"
     email_template = "cmsplugin_contact/email.txt"
 
+    cache = False  # this is a form, should always be reloaded.
+    # (New in django-cms 3.0c, all plugins are cached through django cache)
+
     fieldsets = (
         (None, {
-            'fields': ('form_name', 'form_layout', 'site_email', 'thanks', 'submit'),
+            'fields': ('form_name', 'form_layout', 'site_email',  'submit'),
         }),
+        (_('Redirection'),{
+           'fields': ('thanks', 'redirect_url' ),
+        } ),
         (_('Spam Protection'), {
-            'fields': ('spam_protection_method', 'akismet_api_key', 'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
+            'fields': ('spam_protection_method', 'akismet_api_key',
+                       'recaptcha_public_key', 'recaptcha_private_key', 'recaptcha_theme')
         })
     )
 
@@ -106,10 +114,17 @@ class ContactPlugin(CMSPluginBase):
                 pass
             FormClass = ContactForm
 
+        form = None
         if request.method == "POST":
-            return FormClass(request, data=request.POST, files=request.FILES)
+            form = FormClass(request, data=request.POST, files=request.FILES)
         else:
-            return FormClass(request)
+            form = FormClass(request)
+        form.fields['my_name'] = forms.CharField(max_length=len(instance.form_name),
+                                                 widget=forms.HiddenInput,
+                                                 label='',
+                                                 initial=instance.form_name,
+                                                 required=False)
+        return form
 
     def send(self, form, form_name, site_email, attachments=None):
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL')
@@ -146,15 +161,18 @@ class ContactPlugin(CMSPluginBase):
 
     def render(self, context, instance, placeholder):
         request = context['request']
-
+        if request.method == "POST" and 'my_name' in request.POST and instance.form_name != request.POST.get('my_name', '-') :
+            request.method = "GET"
         form = self.create_form(instance, request)
         instance.render_template = getattr(form, 'template', self.render_template)
-
         if request.method == "POST" and form.is_valid():
             self.send(form, instance.form_name, instance.site_email, attachments=request.FILES)
+            
+            if instance.redirect_url:
+                setattr(request, 'django_cms_contact_redirect_to', HttpResponseRedirect(instance.redirect_url)) 
             context.update({
                 'contact': instance,
-            })
+            })        
         else:
             context.update({
                 'contact': instance,
